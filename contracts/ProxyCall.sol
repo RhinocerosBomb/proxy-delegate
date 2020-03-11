@@ -1,9 +1,8 @@
 pragma solidity ^0.5.0;
 
-contract ProxyDelegate {
-    uint public version;
+contract ProxyCall {
     address public owner;
-    address public delegate;  // contract to delegate calls to
+    address public delegate;
 
     event LogResult(bytes result);
 
@@ -13,7 +12,7 @@ contract ProxyDelegate {
     }
 
     function() external {
-        (bool success, bytes memory returnData) = delegate.delegatecall(msg.data);
+        (bool success, bytes memory returnData) = delegate.call(msg.data);
         require(success, "external call failed");
         emit LogResult(returnData);
     }
